@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Gallery Exhibition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+       
+        body {
+            font-family: 'Crimson Text', 'Times New Roman', serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f9f5e9;
+            background-image: url('https://www.transparenttextures.com/patterns/cream-paper.png');
+        }
+
+        header {
+            background: rgba(245, 238, 220, 0.9);
+            padding: 30px 40px;
+            margin-bottom: 40px;
+            border: 1px solid #d4c9a8;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+            border-top: 4px solid #8b7355;
+            text-align: center;
+        }
+
+        header::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 1px solid #d4c9a8;
+            pointer-events: none;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', 'Times New Roman', serif;
+            font-weight: 700;
+            color: #5a4a3a;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            border-bottom: 2px solid #d4c9a8;
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #d4c9a8;
+            font-style: italic;
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin: 0 0 0.8rem;
+            color: #7a6b5a;
+        }
+
+        /* Enhanced Gallery Section */
+        .gallery-section {
+            background: rgba(245, 238, 220, 0.8);
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #d4c9a8;
+            box-shadow: inset 0 0 20px rgba(127, 68, 68, 0.05);
+            position: relative;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 25px 0;
+        }
+
+        .artwork {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            aspect-ratio: 4/5;
+            background: #000;
+        }
+
+        .artwork img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease, filter 0.3s ease;
+            filter: brightness(0.95) contrast(1.05) sepia(15%);
+            transform: scale(1.01);
+        }
+
+        .artwork:hover img {
+            transform: scale(1.03);
+            filter: brightness(1) contrast(1.1) sepia(0%);
+        }
+
+        .artwork::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 30%);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .artwork:hover::before {
+            opacity: 1;
+        }
+
+        .artwork p {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+            z-index: 2;
+            transform: translateY(100%);
+            opacity: 0;
+            transition: all 0.4s ease;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.5);
+            margin: 0;
+        }
+
+        .artwork:hover p {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Artists Section */
+        .artists-section {
+            background: linear-gradient(to right, rgba(245,238,220,0.9) 0%, rgba(253, 121, 168, 0.05) 100%);
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #d4c9a8;
+            position: relative;
+        }
+
+        .artist {
+            display: flex;
+            margin: 30px 0;
+            align-items: center;
+            background: #fdfcf7;
+            padding: 20px;
+            border: 1px solid #d4c9a8;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .artist:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .artist::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            pointer-events: none;
+        }
+
+        .artist img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            margin-right: 30px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            filter: grayscale(20%) contrast(1.1) sepia(10%);
+        }
+
+        .artist:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) contrast(1.2);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .artist-info {
+            flex: 1;
+        }
+
+        .artist-info p {
+            color: #5a4a3a;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        /* Event Details */
+        .event-details {
+            background: rgba(245, 238, 220, 0.8);
+            padding: 30px;
+            margin-bottom: 40px;
+            border: 1px solid #d4c9a8;
+            position: relative;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 1.05rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        table, th, td {
+            border: 1px solid #d4c9a8;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: linear-gradient(to right, #8b7355, #a08a6d);
+            color: #f9f5e9;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(245, 238, 220, 0.5);
+        }
+
+        tr:hover {
+            background-color: rgba(139, 115, 85, 0.1);
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: linear-gradient(135deg, rgba(245,238,220,0.95) 0%, rgba(220, 237, 255, 0.4) 100%);
+            padding: 30px;
+            border-radius: 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .booking-form::before {
+            content: "";
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 1px solid rgba(139, 115, 85, 0.2);
+            pointer-events: none;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #5a4a3a;
+            font-family: 'Playfair Display', serif;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d4c9a8;
+            border-radius: 0;
+            background: #fdfcf7;
+            font-family: 'Crimson Text', serif;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #8b7355;
+            background: #fff;
+            box-shadow: 0 0 0 2px rgba(139, 115, 85, 0.2);
+        }
+
+        textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            background: #8b7355;
+            color: #f9f5e9;
+            padding: 14px 32px;
+            border: none;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 30px auto 0;
+            width: fit-content;
+        }
+
+        button:hover {
+            background: #5a4a3a;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Decorative Elements */
+        .gallery-section::after,
+        .artists-section::after,
+        .event-details::after,
+        .booking-form::after {
+            content: "❦";
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #8b7355;
+            font-size: 1.5rem;
+            background: #f9f5e9;
+            padding: 0 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+            
+            header, .gallery-section, .artists-section, 
+            .event-details, .booking-form {
+                padding: 20px;
+            }
+            
+            .artist {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .artist img {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Modern Perspectives Exhibition</h1>
+        <h2>Exploring contemporary art in the digital age</h2>
+    </header>
+    
+    <section class="gallery-section">
+        <h2>Featured Artworks</h2>
+        <div class="gallery">
+            <div class="artwork">
+                <img src="monalisa.png" alt="Mona Lisa">
+                <p>Mona Lisa, oil painting on a poplar wood panel by Leonardo da Vinci, probably the world's most famous painting.</p>
+            </div>
+            <div class="artwork">
+                <img src="ravivermaart.png" alt="Raja Ravi Varma Art">
+                <p>Woman Holding a Fruit shows Ravi Varma's mastery over the idioms of a new visual language in India</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="artists-section">
+        <h2>Featured Artists</h2>
+        <div class="artist">
+            <img src="lenardo.png" alt="Leonardo da Vinci">
+            <div class="artist-info">
+                <h3>Leonardo da Vinci</h3>
+                <p>Mona Lisa, oil painting on a poplar wood panel by Leonardo da Vinci, probably the world's most famous painting. The sitter's mysterious smile and her unproven identity have made the work a source of ongoing investigation and fascination.</p>
+            </div>
+        </div>
+        
+        <div class="artist">
+            <img src="rrv.png" alt="Ravi Varma">
+            <div class="artist-info">
+                <h3>Ravi Varma</h3>
+                <p>Ravi Varma was born into an aristocratic family of Kerala. He taught himself the intricacies of oil painting and the practices of European naturalism. His paintings of Indian deities and mythological scenes are among his most celebrated works.</p>
+            </div>
+        </div>
+    </section>
+    
+    <section class="event-details">
+        <h2>Event Details</h2>
+        <table>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Venue</th>
+                <th>Entry Fee</th>
+            </tr>
+            <tr>
+                <td>April 15, 2025</td>
+                <td>10:00 AM - 6:00 PM</td>
+                <td>Main Gallery Hall</td>
+                <td>₹100</td>
+            </tr>
+            <tr>
+                <td>April 16, 2025</td>
+                <td>10:00 AM - 6:00 PM</td>
+                <td>Main Gallery Hall</td>
+                <td>₹100</td>
+            </tr>
+            <tr>
+                <td>April 17, 2025</td>
+                <td>10:00 AM - 8:00 PM</td>
+                <td>Main Gallery Hall</td>
+                <td>₹150 (Special Evening Event)</td>
+            </tr>
+        </table>
+    </section>
+    
+    <section class="booking-form">
+        <h2>Book Your Visit</h2>
+        <form action="register.php" method="post">
+            <div class="form-group">
+                <label for="name">Full Name:</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Preferred Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="guests">Number of Guests:</label>
+                <input type="number" id="guests" name="guests" min="1" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Special Requests:</label>
+                <textarea id="message" name="message"></textarea>
+            </div>
+            
+            <button type="submit">Submit Booking</button>
+        </form>
+    </section>
+</body>
+</html>
