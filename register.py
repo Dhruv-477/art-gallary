@@ -1,19 +1,3 @@
-#!/usr/bin/env python3
-"""
-Art Gallery Booking Registration Script
-
-This script replaces register.php functionality.
-Requirements:
-- Python 3.x
-- mysql-connector-python or pymysql package
-  Install with: pip install mysql-connector-python
-  Alternative: pip install pymysql
-
-Usage:
-This script should be deployed as a CGI script on a web server
-with Python CGI support enabled.
-"""
-
 import cgi
 import cgitb
 import os
