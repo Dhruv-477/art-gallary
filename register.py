@@ -1,10 +1,5 @@
-import cgi
-import cgitb
 import os
 import sys
-
-# Enable CGI error reporting
-cgitb.enable()
 
 def main():
     # Set content type for HTTP response
@@ -17,7 +12,6 @@ def main():
     dbname = "art_gallery"
     
     try:
-        # Try to import mysql connector (preferred method)
         try:
             import mysql.connector
             from mysql.connector import Error
@@ -33,10 +27,6 @@ def main():
             if conn.is_connected():
                 cursor = conn.cursor()
                 
-                # Get form data
-                form = cgi.FieldStorage()
-                
-                # Check if this is a POST request
                 if os.environ.get('REQUEST_METHOD') == 'POST':
                     # Extract form fields
                     name = form.getvalue('name', '').strip()
@@ -45,7 +35,6 @@ def main():
                     guests = int(form.getvalue('guests', 0))
                     message = form.getvalue('message', '').strip()
                     
-                    # Prepare and execute SQL statement
                     query = "INSERT INTO bookings (name, email, date, guests, message) VALUES (%s, %s, %s, %s, %s)"
                     values = (name, email, date, guests, message)
                     
@@ -71,10 +60,6 @@ def main():
                     database=dbname,
                     charset='utf8mb4'
                 )
-                
-                with conn.cursor() as cursor:
-                    # Get form data
-                    form = cgi.FieldStorage()
                     
                     # Check if this is a POST request
                     if os.environ.get('REQUEST_METHOD') == 'POST':
